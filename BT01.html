@@ -38,25 +38,25 @@
 					<li ng-class="{active:isSet(5)}"><a href ng-click=" setTab(5)">Lớp</a></li>
 				</ul>
 			</div>
-			
+
 			<div  style="display: flex;"  ng-show="isSet(1)">
 				<p><input type="text"  placeholder=" họ tên" ng-model = "Userinput.hoten"></p>
 				<p><input type="text"  placeholder="tuổi" ng-model = "Userinput.tuoi"></p>
 				<select ng-model = "Userinput.lop">
 					<optgroup ng-repeat="kho in khoi1" >
-						
+
 						<option >{{kho.name}}</option>
-						
+
 					</optgroup>
-					
+
 				</select>
 			<button ng-click="searchSinhVien()" class="btn-info" >tìm kiếm</a></button>
-			
+
 		</div>
-		
+
 		<div >
-			
-			
+
+
 			<div ng-show="isSet(5)" class="table-responsive">
 				<div><button ng-class="{active: isSet(6)}" href ng-click="setTab(6)">Tạo lớp</button></div>
 				<table border="1px solid blue" class="table-condensed">
@@ -75,43 +75,44 @@
 								<button ng-class="{active: isSet(7)}" href ng-click="setTab(7);loadFormEdit(kho,$index)">sửa</button>
 								<button ng-click="reMoveLop(kho,index)">xóa</button>
 							</td>
-							
+
 						</tr>
 					</tbody>
 				</table>
-				
+
 			</div>
 			<div ng-show="isSet(6)">
 				<form ng-submit="addLop(form)">
 					<p>Thêm lớp</p>
-					<p>Tên lớp: <input type="text" ng-model="form.name"></p>
+					<p>Tên lớp: <input type="text" ng-model="form.name" required></p>
 					<p>Thuộc lớp:
 						<select >
 							<optgroup ng-repeat="kho in khoi" >
-								
+
 								<option >{{kho.name}}</option>
-								
+
 							</optgroup>
-							
+
 						</select>
+						
 					</p>
 					<input type="submit"  value="Lưu">
 				</form>
 			</div>
-			
+
 			<div ng-show="isSet(2)">
 				<p>Thêm sinh viên</p>
 				<form  ng-submit="addSinhVien(hoten,tuoi,lop)" class="form-horizontal">
-					<p>họ và tên <input type="text" ng-model="hoten" ></p>
-					<p>năm sinh <input type="date" ng-model="tuoi" ></p>
+					<p>họ và tên <input type="text" ng-model="hoten" required ></p>
+					<p>năm sinh <input type="date" ng-model="tuoi" required></p>
 					<p>lớp
 						<select ng-model="lop">
 							<optgroup ng-repeat="kho in khoi1" >
-								
+
 								<option >{{kho.name}}</option>
-								
+
 							</optgroup>
-							
+
 						</select>
 					</p>
 					<input type="submit"  value="lưu" class="btn-primary">
@@ -124,11 +125,11 @@
 					<p>Thuộc lớp:
 						<select >
 							<optgroup ng-repeat="kho in khoi" >
-								
+
 								<option >{{kho.name}}</option>
-								
+
 							</optgroup>
-							
+
 						</select>
 					</p>
 					<input type="submit"  value="Lưu">
@@ -167,29 +168,29 @@
 			</div>
 			<div  ng-controller="nested-repeat" ng-show="isSet(3)">
 				<h1>Sửa học sinh</h1>
-				
+
 				<div>
 					<form >
-						
+
 						Nhap ten: <input type="text"  ng-model="sinh.hoten">
 						Nhap ngay sinh: <input type="date"  ng-model="sinh.tuoi">
 						<p>lớp
 							<select ng-model="sinh.lop">
 								<optgroup ng-repeat="kho in khoi1" >
-									
+
 									<option >{{kho.name}}</option>
-									
+
 								</optgroup>
-								
+
 							</select>
 						</p>
 						<button ng-click="saveEdit()" >lưu</button>
 					</form>
-					
+
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 </body>
-</html>
+</html> 

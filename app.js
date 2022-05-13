@@ -1,3 +1,5 @@
+
+(function(angular){
 var myApp = angular.module("myApp",['angularUtils.directives.dirPagination']);
 		myApp.controller('nested-repeat',  function($scope){
 			
@@ -50,6 +52,26 @@ var myApp = angular.module("myApp",['angularUtils.directives.dirPagination']);
                             $scope.reverse = !$scope.reverse;
                     }
             //paging lop
+            
+
+			// $scope.khoi1 = [],
+			// $scope.currentPname = 1,
+			// $scope.numPerPname = 10,
+			// $scope.maxSize = 5;
+			// for(var i = 0; i < 100; i++){
+			// 		var clas = {name: "lop11"};
+			// 		khoi1.push(clas);
+			// }
+			// $scope.$watch('currentPtimtuoi + numPerPtimtuoi', function() {
+			// 		var begin = (($scope.currentPname - 1) * $scope.numPerPname),
+			// 		end = begin + $scope.numPerPname;
+			// $scope.filter = $scope.khoi1.slice(begin, end);
+			// });
+			
+			// $scope.sort = function(keyname){
+   //                          $scope.sortKey = keyname;   
+   //                          $scope.reverse = !$scope.reverse;
+   //                  }
 
 
 
@@ -63,6 +85,7 @@ var myApp = angular.module("myApp",['angularUtils.directives.dirPagination']);
 			$scope.tuoi = '';
 			
 			$scope.addSinhVien = function(hoten, tuoi, lop){
+
 				var temp = {hoten: hoten, tuoi: tuoi, lop: lop};
 				$scope.SinhVien.push(temp);
 				$scope.hien_themHV = true;
@@ -157,3 +180,4 @@ var myApp = angular.module("myApp",['angularUtils.directives.dirPagination']);
 				return $scope.tab === tabNum;
 				};
 		}]);
+	})(window.angular);
