@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<title>ezStudy</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/underscore@1.13.3/underscore-umd-min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+        <script src="dirPagination.js"></script>
+        <script src="app.js"></script>
+		<style type="text/css">
+			ul{
+				list-style-type: none;
+				margin-left:  0;
+				padding: 0;
+				overflow: hidden;
+				background-color: none;
+			}
+			li{
+				margin-left: 25px;
+				float: left;
+			}
+		</style>
+	</head>
+	<body ng-controller="TabController">
+		<div ng-controller="nested-repeat">
+			<div class="breadcrumb">
+				<ul>
+					<li>ezStudy</li>
+					<li ng-class="{active:isSet(1)}"><a href ng-click="setTab(1)">Học Sinh</a></li>
+					<li ng-class="{active:isSet(5)}"><a href ng-click=" setTab(5)">Lớp</a></li>
+				</ul>
+			</div>
+			
+			<div  style="display: flex;"  ng-show="isSet(1)">
+				<p><input type="text"  placeholder=" họ tên" ng-model = "Userinput.hoten"></p>
+				<p><input type="text"  placeholder="tuổi" ng-model = "Userinput.tuoi"></p>
+				<select ng-model = "Userinput.lop">
+					<optgroup ng-repeat="kho in khoi1" >
+						
+						<option >{{kho.name}}</option>
+						
+					</optgroup>
+					
+				</select>
+			<button ng-click="searchSinhVien()" class="btn-info" >tìm kiếm</a></button>
+			
+		</div>
+		
+		<div >
+			
+			
+			<div ng-show="isSet(5)" class="table-responsive">
+				<div><button ng-class="{active: isSet(6)}" href ng-click="setTab(6)">Tạo lớp</button></div>
+				<table border="1px solid blue" class="table-condensed">
+					<thead>
+						<tr>
+							<td>STT</td>
+							<td>Lop</td>
+							<td>Thao tac</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="kho in khoi1" >
+							<td >{{$index}}</td>
+							<td >{{kho.name}}</td>
+							<td>
+								<button ng-class="{active: isSet(7)}" href ng-click="setTab(7);loadFormEdit(kho,$index)">sửa</button>
+								<button ng-click="reMoveLop(kho,index)">xóa</button>
+							</td>
+							
+						</tr>
+					</tbody>
+				</table>
+				
+			</div>
+			<div ng-show="isSet(6)">
+				<form ng-submit="addLop(form)">
+					<p>Thêm lớp</p>
+					<p>Tên lớp: <input type="text" ng-model="form.name"></p>
+					<p>Thuộc lớp:
+						<select >
+							<optgroup ng-repeat="kho in khoi" >
+								
+								<option >{{kho.name}}</option>
+								
+							</optgroup>
+							
+						</select>
+					</p>
+					<input type="submit"  value="Lưu">
+				</form>
+			</div>
+			
+			<div ng-show="isSet(2)">
+				<p>Thêm sinh viên</p>
+				<form  ng-submit="addSinhVien(hoten,tuoi,lop)" class="form-horizontal">
+					<p>họ và tên <input type="text" ng-model="hoten" ></p>
+					<p>năm sinh <input type="date" ng-model="tuoi" ></p>
+					<p>lớp
+						<select ng-model="lop">
+							<optgroup ng-repeat="kho in khoi1" >
+								
+								<option >{{kho.name}}</option>
+								
+							</optgroup>
+							
+						</select>
+					</p>
+					<input type="submit"  value="lưu" class="btn-primary">
+				</form>
+			</div>
+			<div ng-show="isSet(7)">
+				<form ng-submit="saveEditlop()">
+					<p>sửa lớp</p>
+					<p>Tên lớp: <input type="text"  ng-model="formeditclass.name"></p>
+					<p>Thuộc lớp:
+						<select >
+							<optgroup ng-repeat="kho in khoi" >
+								
+								<option >{{kho.name}}</option>
+								
+							</optgroup>
+							
+						</select>
+					</p>
+					<input type="submit"  value="Lưu">
+				</form>
+			</div>
+			<div ng-show="isSet(1)" class="table-responsive">
+				<button ng-class="{active: isSet(2)}" href ng-click="setTab(2)" class="btn-primary">Thêm sinh viên</button>
+				<table border="1px solid blue" class="table-condensed"  >
+					<thead >
+						<tr>
+							<td width="100px" align="center" >STT</td>
+							<td width="100px" align="center" >HO TEN</td>
+							<td width="100px" align="center" >TUOI</td>
+							<td width="100px" align="center" >LOP</td>
+							<td>THAO TAC</td>
+						</tr>
+					</thead>
+					<tbody >
+						<tr dir-paginate="sinh in SinhVien |itemsPerPage:5" align="center" width="30px" >
+							<td>{{$index + 1}}</td>
+							<td>{{sinh.hoten}}</td>
+							<td>{{tinhTuoi(sinh.tuoi)}}</td>
+							<td>{{sinh.lop}}</td>
+							<td style="display: flex;">
+								<button ng-class="{active: isSet(3)}" href ng-click="setTab(3,sinh);  " class="btn-warning">Sửa</button>
+								<input type="submit"  value="Xóa" ng-click="reMoveSinhVien(sinh)" class="btn-danger">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<dir-pagination-controls
+                            max-size="5"
+                            direction-links="true"
+                            boundary-links="true"  >
+                    </dir-pagination-controls>
+			</div>
+			<div  ng-controller="nested-repeat" ng-show="isSet(3)">
+				<h1>Sửa học sinh</h1>
+				
+				<div>
+					<form >
+						
+						Nhap ten: <input type="text"  ng-model="sinh.hoten">
+						Nhap ngay sinh: <input type="date"  ng-model="sinh.tuoi">
+						<p>lớp
+							<select ng-model="sinh.lop">
+								<optgroup ng-repeat="kho in khoi1" >
+									
+									<option >{{kho.name}}</option>
+									
+								</optgroup>
+								
+							</select>
+						</p>
+						<button ng-click="saveEdit()" >lưu</button>
+					</form>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>
